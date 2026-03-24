@@ -1,5 +1,7 @@
+const PDF_FIELD_PLACEHOLDER = ".......................";
+
 export function buildBalanceReportHtml({
-	date,
+	aircraftModel,
 	registration,
 	rows,
 	inputMap,
@@ -54,6 +56,13 @@ export function buildBalanceReportHtml({
         letter-spacing: 0.12em;
         text-transform: uppercase;
         line-height: 1.3;
+      }
+      .model-line {
+        margin: 10px 0 0 0;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: #1f2937;
       }
       .meta {
         margin-top: 12px;
@@ -203,9 +212,10 @@ export function buildBalanceReportHtml({
     <div class="page">
       <header class="doc-header">
         <h1 class="title">Weight &amp; balance report</h1>
+        <p class="model-line">Model: ${escapeHtml(aircraftModel)}</p>
         <div class="meta">
-          <span><strong>Date:</strong> ${escapeHtml(date)}</span>
-          <span><strong>Registration:</strong> ${escapeHtml(registration || ".......................")}</span>
+          <span><strong>Date:</strong> ${escapeHtml(PDF_FIELD_PLACEHOLDER)}</span>
+          <span><strong>Registration:</strong> ${escapeHtml(registration?.trim() ? registration : PDF_FIELD_PLACEHOLDER)}</span>
         </div>
       </header>
 

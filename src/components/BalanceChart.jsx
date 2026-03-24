@@ -38,28 +38,21 @@ function BalanceChart({ totals, rows, inputs }) {
 		});
 
 	return (
-		<section className="rounded-xl bg-white p-4 shadow-md">
-			<div className="mb-3 flex flex-wrap items-center gap-2">
-				<h2 className="mr-auto text-lg font-semibold">Envelope / MS 893 A</h2>
-				<input
-					type="text"
-					value={registrationNumbers}
-					onChange={(event) => setRegistrationNumbers(event.target.value)}
-					placeholder="Numery rejestracyjne"
-					className="rounded border border-slate-300 px-2 py-1 text-sm"
-				/>
-				<button
-					type="button"
-					onClick={exportPdf}
-					className="rounded bg-slate-800 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-700"
-				>
-					Eksport PDF
-				</button>
+		<section className="rounded-[20px] bg-white p-4 shadow-card ring-1 ring-slate-900/10 sm:p-5">
+			<div className="border-b border-slate-300 pb-4">
+				<h2 className="text-[17px] font-semibold tracking-[-0.01em] text-slate-950">
+					Envelope
+				</h2>
+				<p className="mt-0.5 text-[13px] font-semibold text-slate-600">MS 893 A · inch / lbs</p>
 			</div>
-			<div ref={chartRef} className="h-[520px] w-full bg-white">
+
+			<div
+				ref={chartRef}
+				className="mt-4 h-[min(52vh,520px)] min-h-[260px] w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 sm:min-h-[320px]"
+			>
 				<ResponsiveContainer width="100%" height="100%">
 					<LineChart margin={{ top: 10, right: 20, bottom: 30, left: 10 }}>
-						<CartesianGrid strokeDasharray="2 2" />
+						<CartesianGrid strokeDasharray="2 2" stroke="#cbd5e1" />
 						<XAxis
 							type="number"
 							dataKey="xIn"
@@ -146,6 +139,29 @@ function BalanceChart({ totals, rows, inputs }) {
 						/>
 					</LineChart>
 				</ResponsiveContainer>
+			</div>
+
+			<div className="mt-5 border-t border-slate-300 pt-4">
+				<p className="mb-3 text-[13px] font-semibold uppercase tracking-wide text-slate-600">
+					PDF report
+				</p>
+				<div className="flex flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-3">
+					<input
+						type="text"
+						value={registrationNumbers}
+						onChange={(event) => setRegistrationNumbers(event.target.value)}
+						placeholder="Registration (e.g. SP-...)"
+						autoComplete="off"
+						className="ios-input w-full min-w-0 flex-1 sm:max-w-md"
+					/>
+					<button
+						type="button"
+						onClick={exportPdf}
+						className="inline-flex shrink-0 items-center justify-center rounded-2xl bg-ios-blue px-5 py-3 text-[15px] font-semibold text-white shadow-sm transition active:scale-[0.98] hover:bg-[#0066d6] focus:outline-none focus-visible:ring-2 focus-visible:ring-ios-blue/50"
+					>
+						Export PDF
+					</button>
+				</div>
 			</div>
 		</section>
 	);

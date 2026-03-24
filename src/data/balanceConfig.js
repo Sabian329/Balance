@@ -1,6 +1,9 @@
 export const KG_TO_LBS = 2.20462;
 export const M_TO_IN = 39.3701;
 
+/** Model label used in PDF header (manual date field next to registration). */
+export const aircraftModelReport = "MS 892 A";
+
 export const constants = {
 	emptyMassKg: 605,
 	emptyArmM: 0.782,

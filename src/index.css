@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
-  @apply m-0 bg-slate-100 font-sans text-slate-900;
+  @apply m-0 min-h-screen bg-ios-bg font-sans text-slate-900 antialiased;
+  padding-left: env(safe-area-inset-left, 0);
+  padding-right: env(safe-area-inset-right, 0);
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+@layer utilities {
+  .ios-input {
+    @apply rounded-2xl border border-slate-300/90 bg-slate-100 px-3.5 py-2.5 text-[15px] font-medium text-slate-900 shadow-inner shadow-slate-300/40 outline-none transition focus:border-ios-blue focus:bg-white focus:ring-2 focus:ring-ios-blue/50;
+  }
 }

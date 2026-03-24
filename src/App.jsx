@@ -81,20 +81,30 @@ function App() {
 	}, [rows]);
 
 	return (
-		<main className="min-h-screen p-4 md:p-8">
-			<div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[420px_1fr]">
-				<section className="space-y-4 rounded-xl bg-white p-4 shadow-md">
-					<h1 className="text-xl font-bold">Master Balance Calculator</h1>
+		<main className="min-h-0 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))]">
+			<div className="mx-auto w-full max-w-6xl px-4 sm:px-5 md:px-6 lg:px-8">
+				<header className="mb-5 text-center sm:mb-6 sm:text-left">
+					<h1 className="text-[22px] font-semibold leading-tight tracking-[-0.02em] text-slate-900 sm:text-[26px]">
+						Master balance
+					</h1>
+					<p className="mt-1 text-[15px] font-medium text-slate-600">
+						Weight and balance calculator · MS 893 A
+					</p>
+				</header>
 
-					<InputTable
-						fields={inputFields}
-						inputs={inputs}
-						setInputs={setInputs}
-					/>
-					<CalculationTable rows={rows} totals={totals} />
-					<TotalsCards totals={totals} />
-				</section>
-				<BalanceChart totals={totals} rows={rows} inputs={inputs} />
+				<div className="flex flex-col gap-5 lg:grid lg:grid-cols-[minmax(0,400px)_1fr] lg:items-start lg:gap-6">
+					<section className="space-y-5 rounded-[20px] bg-white p-4 shadow-card ring-1 ring-slate-900/10 sm:p-5">
+						<InputTable
+							fields={inputFields}
+							inputs={inputs}
+							setInputs={setInputs}
+						/>
+						<CalculationTable rows={rows} totals={totals} />
+						<TotalsCards totals={totals} />
+					</section>
+
+					<BalanceChart totals={totals} rows={rows} inputs={inputs} />
+				</div>
 			</div>
 		</main>
 	);

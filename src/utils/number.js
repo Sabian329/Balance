@@ -8,7 +8,7 @@ export function clampValue(value, min, max) {
 }
 
 export function format(value, digits = 3) {
-	return value.toLocaleString("pl-PL", {
+	return value.toLocaleString("en-US", {
 		minimumFractionDigits: digits,
 		maximumFractionDigits: digits,
 	});

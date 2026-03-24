@@ -1,6 +1,6 @@
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
-import { constants } from "../data/balanceConfig";
+import { aircraftModelReport, constants } from "../data/balanceConfig";
 import { buildBalanceReportHtml } from "../templates/balanceReportTemplate";
 
 function inputValueToNumber(value) {
@@ -8,7 +8,7 @@ function inputValueToNumber(value) {
 	return Number.isFinite(n) ? n : 0;
 }
 
-/** Teksty kolumny INPUT w PDF + suma „wejścia” w kg (paliwo/olej z gęstości, reszta kg). */
+/** INPUT column text in PDF + total input in kg (fuel/oil from density, others as kg). */
 function buildInputColumnForPdf(inputFields, inputs, format) {
 	const inputMap = {};
 	let inputTotalKg = 0;
@@ -43,7 +43,6 @@ export async function exportBalancePdf({
 	chartElement,
 	format,
 }) {
-	const today = new Date().toLocaleDateString("pl-PL");
 	const { inputMap, inputTotalKg } = buildInputColumnForPdf(inputFields, inputs, format);
 	let chartDataUrl = "";
 	if (chartElement) {
@@ -55,7 +54,7 @@ export async function exportBalancePdf({
 	}
 
 	const html = buildBalanceReportHtml({
-		date: today,
+		aircraftModel: aircraftModelReport,
 		registration: registrationNumbers,
 		rows: rows || [],
 		inputMap,
@@ -88,5 +87,5 @@ export async function exportBalancePdf({
 	const pageHeight = doc.internal.pageSize.getHeight();
 	doc.addImage(pageImage, "JPEG", 0, 0, pageWidth, pageHeight);
 
-	doc.save(`master-balance-${today.replaceAll(".", "-")}.pdf`);
+	doc.save("master-balance.pdf");
 }
