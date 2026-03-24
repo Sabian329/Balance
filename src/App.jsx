@@ -24,12 +24,14 @@ function App() {
 		const backMass = toNumber(inputs.backSeatsKg);
 		const trunkMass = toNumber(inputs.trunkKg);
 
+		const emptyMomentKgm = constants.emptyMassKg * constants.emptyArmM;
+
 		return [
 			{
 				label: "Empty",
 				massKg: constants.emptyMassKg,
-				armM: null,
-				momentKgm: constants.emptyMomentKgm,
+				armM: constants.emptyArmM,
+				momentKgm: emptyMomentKgm,
 			},
 			{
 				label: "Fuel",
@@ -92,7 +94,7 @@ function App() {
 					<CalculationTable rows={rows} totals={totals} />
 					<TotalsCards totals={totals} />
 				</section>
-				<BalanceChart totals={totals} />
+				<BalanceChart totals={totals} rows={rows} inputs={inputs} />
 			</div>
 		</main>
 	);

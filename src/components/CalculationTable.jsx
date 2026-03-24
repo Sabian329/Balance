@@ -20,7 +20,9 @@ function CalculationTable({ rows, totals }) {
 			<div className="grid grid-cols-4 border-t-2 border-slate-400 bg-yellow-200 px-2 py-2 text-sm font-semibold">
 				<span>SUM</span>
 				<span className="text-right">{format(totals.massKg, 1)}</span>
-				<span className="text-right">-</span>
+				<span className="text-right" title="CG = suma momentów / suma mas">
+					{totals.massKg > 0 ? format(totals.cgM, 3) : "-"}
+				</span>
 				<span className="text-right">{format(totals.momentKgm, 3)}</span>
 			</div>
 		</div>

@@ -3,7 +3,7 @@ export const M_TO_IN = 39.3701;
 
 export const constants = {
 	emptyMassKg: 605,
-	emptyMomentKgm: 473.11,
+	emptyArmM: 0.782,
 	stations: {
 		fuel: { armM: 1.067, densityKgPerL: 0.72 },
 		oil: { armM: -0.48, densityKgPerL: 0.9 },
@@ -86,7 +86,7 @@ export const inputFields = [
 
 export const initialInputs = {
 	fuelL: 120,
-	oilL: 7,
+	oilL: 6.5,
 	frontSeatsKg: 177,
 	backSeatsKg: 0,
 	trunkKg: 5,

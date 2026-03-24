@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import {
 	CartesianGrid,
 	Label,
@@ -14,16 +15,48 @@ import {
 	envelopeData2,
 	envelopeData3,
 	envelopeData4,
+	inputFields,
 	xTicks,
 	yTicks,
 } from "../data/balanceConfig";
+import { exportBalancePdf } from "../utils/exportBalancePdf";
 import { format } from "../utils/number";
 
-function BalanceChart({ totals }) {
+function BalanceChart({ totals, rows, inputs }) {
+	const [registrationNumbers, setRegistrationNumbers] = useState("");
+	const chartRef = useRef(null);
+
+	const exportPdf = async () =>
+		exportBalancePdf({
+			totals,
+			rows,
+			inputs,
+			inputFields,
+			registrationNumbers,
+			chartElement: chartRef.current,
+			format,
+		});
+
 	return (
 		<section className="rounded-xl bg-white p-4 shadow-md">
-			<h2 className="mb-3 text-lg font-semibold">Envelope / MS 893 A</h2>
-			<div className="h-[520px] w-full">
+			<div className="mb-3 flex flex-wrap items-center gap-2">
+				<h2 className="mr-auto text-lg font-semibold">Envelope / MS 893 A</h2>
+				<input
+					type="text"
+					value={registrationNumbers}
+					onChange={(event) => setRegistrationNumbers(event.target.value)}
+					placeholder="Numery rejestracyjne"
+					className="rounded border border-slate-300 px-2 py-1 text-sm"
+				/>
+				<button
+					type="button"
+					onClick={exportPdf}
+					className="rounded bg-slate-800 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-700"
+				>
+					Eksport PDF
+				</button>
+			</div>
+			<div ref={chartRef} className="h-[520px] w-full bg-white">
 				<ResponsiveContainer width="100%" height="100%">
 					<LineChart margin={{ top: 10, right: 20, bottom: 30, left: 10 }}>
 						<CartesianGrid strokeDasharray="2 2" />
