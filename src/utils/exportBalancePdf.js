@@ -136,13 +136,24 @@ export async function exportBalancePdf({
 	registrationNumbers,
 	chartElement,
 	format,
+	onProgress,
 }) {
 	try {
+		const report =
+			typeof onProgress === "function"
+				? (value) => {
+						const n = Number(value);
+						if (Number.isFinite(n)) onProgress(Math.max(0, Math.min(100, n)));
+					}
+				: () => {};
+
+		report(0);
 		const { inputMap, inputTotalKg } = buildInputColumnForPdf(
 			inputFields,
 			inputs,
 			format,
 		);
+		report(10);
 		let chartDataUrl = "";
 		if (chartElement) {
 			const originalInlineStyles = {
@@ -187,6 +198,7 @@ export async function exportBalancePdf({
 				console.error("Balance PDF: failed to render chart PNG", err);
 				chartDataUrl = "";
 			}
+			report(55);
 
 			chartElement.style.width = originalInlineStyles.width;
 			chartElement.style.height = originalInlineStyles.height;
@@ -196,6 +208,7 @@ export async function exportBalancePdf({
 			chartElement.style.maxWidth = originalInlineStyles.maxWidth;
 			chartElement.style.maxHeight = originalInlineStyles.maxHeight;
 		}
+		report(70);
 
 		const html = buildBalanceReportHtml({
 			aircraftModel: aircraftModelReport,
@@ -218,6 +231,7 @@ export async function exportBalancePdf({
 		renderRoot.innerHTML = html;
 		document.body.appendChild(renderRoot);
 
+		report(80);
 		const pageCanvas = await html2canvas(renderRoot, {
 			backgroundColor: "#ffffff",
 			scale: 2,
@@ -225,6 +239,7 @@ export async function exportBalancePdf({
 		});
 		document.body.removeChild(renderRoot);
 
+		report(95);
 		const pageImage = pageCanvas.toDataURL("image/jpeg", 0.95);
 		const doc = new jsPDF({
 			orientation: "portrait",
@@ -235,8 +250,10 @@ export async function exportBalancePdf({
 		const pageHeight = doc.internal.pageSize.getHeight();
 		doc.addImage(pageImage, "JPEG", 0, 0, pageWidth, pageHeight);
 
+		report(100);
 		doc.save("master-balance.pdf");
 	} catch (err) {
 		console.error("Balance PDF: export failed", err);
+		if (typeof onProgress === "function") onProgress(100);
 	}
 }
