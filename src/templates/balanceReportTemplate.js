@@ -16,7 +16,7 @@ export function buildBalanceReportHtml({
 			return `
         <tr>
           <td>${escapeHtml(String(row.label))}</td>
-          <td>${escapeHtml(inputMap[row.label] || "-")}</td>
+          <td class="num">${escapeHtml(inputMap[row.label] || "-")}</td>
           <td class="num">${escapeHtml(format(row.massKg, 1))}</td>
           <td class="num">${escapeHtml(arm)}</td>
           <td class="num">${escapeHtml(format(row.momentKgm, 3))}</td>
@@ -224,7 +224,7 @@ export function buildBalanceReportHtml({
           <thead>
             <tr>
               <th>ITEM</th>
-              <th>INPUT</th>
+              <th class="num">INPUT (kg)</th>
               <th class="num">MASS (kg)</th>
               <th class="num">ARM (m)</th>
               <th class="num">MOMENT (kgm)</th>
@@ -234,10 +234,10 @@ export function buildBalanceReportHtml({
             ${rowHtml}
             <tr class="total">
               <td>TOTAL</td>
-              <td>${escapeHtml(format(inputTotal, 1))} kg</td>
-              <td class="num">${escapeHtml(format(totals.massKg, 1))}</td>
-              <td class="num">${escapeHtml(totals.massKg > 0 ? format(totals.cgM, 3) : "-")}</td>
-              <td class="num">${escapeHtml(format(totals.momentKgm, 3))}</td>
+              <td class="num">${escapeHtml(format(inputTotal, 1))} kg</td>
+              <td class="num">${escapeHtml(format(totals.massKg, 1))} kg</td>
+              <td class="num">${escapeHtml(totals.massKg > 0 ? format(totals.cgM, 3) : "-")} m</td>
+              <td class="num">${escapeHtml(format(totals.momentKgm, 3))} kgm</td>
             </tr>
           </tbody>
         </table>
@@ -279,16 +279,11 @@ export function buildBalanceReportHtml({
               <table class="field-table" role="presentation">
                 <tr><td class="label">Pilot:</td><td class="line"></td></tr>
               </table>
-              <table class="field-table" role="presentation">
-                <tr><td class="label">Date:</td><td class="line"></td></tr>
-              </table>
               <p class="sig-note">PIC confirms data above.</p>
             </div>
           </div>
         </div>
       </div>
-
-      <footer class="footer">Generated automatically — verify against aircraft POH / W&amp;B record.</footer>
     </div>
   </body>
 </html>

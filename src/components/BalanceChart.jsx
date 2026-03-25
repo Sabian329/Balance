@@ -43,7 +43,9 @@ function BalanceChart({ totals, rows, inputs }) {
 				<h2 className="text-[17px] font-semibold tracking-[-0.01em] text-slate-950">
 					Envelope
 				</h2>
-				<p className="mt-0.5 text-[13px] font-semibold text-slate-600">MS 893 A · inch / lbs</p>
+				<p className="mt-0.5 text-[13px] font-semibold text-slate-600">
+					MS 893 A · inch / lbs
+				</p>
 			</div>
 
 			<div
@@ -83,6 +85,7 @@ function BalanceChart({ totals, rows, inputs }) {
 							stroke="#111827"
 							strokeWidth={3}
 							dot={false}
+							animationDuration={0}
 						/>
 						<Line
 							data={envelopeData2}
@@ -92,6 +95,7 @@ function BalanceChart({ totals, rows, inputs }) {
 							stroke="#111827"
 							strokeWidth={3}
 							dot={false}
+							animationDuration={0}
 						/>
 						<Line
 							data={envelopeData3}
@@ -101,6 +105,7 @@ function BalanceChart({ totals, rows, inputs }) {
 							stroke="#111827"
 							strokeWidth={3}
 							dot={false}
+							animationDuration={0}
 						/>
 						<Line
 							data={envelopeData4}
@@ -110,6 +115,7 @@ function BalanceChart({ totals, rows, inputs }) {
 							stroke="#111827"
 							strokeWidth={3}
 							dot={false}
+							animationDuration={0}
 						/>
 						<ReferenceLine
 							x={totals.cgIn}
