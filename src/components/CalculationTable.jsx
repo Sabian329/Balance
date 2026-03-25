@@ -32,7 +32,7 @@ function CalculationTable({ rows, totals }) {
 					))}
 				</div>
 				<div
-					className="grid grid-cols-[minmax(0,1.2fr)_repeat(3,minmax(0,1fr))] gap-x-1 border-t-2 border-amber-400/90 bg-amber-100 px-2 py-3 text-[13px] font-bold sm:gap-x-2 sm:px-3 sm:text-[14px]"
+					className="grid grid-cols-[minmax(0,1.2fr)_repeat(3,minmax(0,1fr))] gap-x-1 border-t-2 border-orange-200 bg-gradient-to-b from-orange-100 to-white px-2 py-3 text-[13px] font-bold sm:gap-x-2 sm:px-3 sm:text-[14px]"
 					title="CG in total row = total moment / total mass"
 				>
 					<span className="pl-1 text-slate-900">Total</span>

@@ -78,11 +78,8 @@ function FlightPerformanceCards({ totals, inputs }) {
 						</div>
 					)}
 				</div>
-
-				{/* Wind correction */}
-
 				{/* Weight reserve */}
-				<div className="col-span-2 rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-100 to-white p-4 shadow-sm ring-1 ring-slate-900/5 sm:p-4">
+				<div className="col-span-2 rounded-2xl border border-slate-200 bg-gradient-to-b from-orange-100 to-white p-4 shadow-sm ring-1 ring-slate-900/5 sm:p-4">
 					<p className="text-[12px] font-semibold uppercase tracking-wide text-slate-600">
 						Weight reserve (max {MAX_MASS_KG} kg)
 					</p>
