@@ -78,6 +78,160 @@ function GripIcon() {
 	);
 }
 
+function CourseCorrectionDiagram({
+	courseTrue,
+	headingTrue,
+	windFromTrue,
+	wcaDeg,
+}) {
+	const cx = 90;
+	const cy = 90;
+	const arrowLen = 58;
+
+	const toPoint = (angleDeg, length) => {
+		const rad = degToRad(angleDeg - 90);
+		return {
+			x: cx + Math.cos(rad) * length,
+			y: cy + Math.sin(rad) * length,
+		};
+	};
+
+	const courseP = toPoint(courseTrue, arrowLen);
+	const headingP = toPoint(headingTrue, arrowLen);
+	const windToP = toPoint(normalizeDeg(windFromTrue + 180), arrowLen - 4);
+	const arrowHeadPoints = (from, to, size = 7) => {
+		const dx = to.x - from.x;
+		const dy = to.y - from.y;
+		const len = Math.hypot(dx, dy) || 1;
+		const ux = dx / len;
+		const uy = dy / len;
+
+		const bx = to.x - ux * size;
+		const by = to.y - uy * size;
+		const px = -uy;
+		const py = ux;
+		const halfWidth = size * 0.52;
+
+		return `${to.x},${to.y} ${bx + px * halfWidth},${by + py * halfWidth} ${bx - px * halfWidth},${by - py * halfWidth}`;
+	};
+
+	return (
+		<div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-3 shadow-sm ring-1 ring-slate-900/5">
+			<div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-slate-600">
+				Course diagram
+			</div>
+			<svg
+				width="180"
+				height="180"
+				viewBox="0 0 180 180"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				aria-hidden="true"
+				focusable="false"
+				className="mx-auto"
+			>
+				<circle cx={cx} cy={cy} r="70" stroke="#cbd5e1" strokeWidth="1.5" />
+				<circle cx={cx} cy={cy} r="48" stroke="#e2e8f0" strokeWidth="1" />
+				<text
+					x="90"
+					y="18"
+					textAnchor="middle"
+					className="fill-slate-500 text-[10px]"
+				>
+					N
+				</text>
+				<text
+					x="90"
+					y="170"
+					textAnchor="middle"
+					className="fill-slate-500 text-[10px]"
+				>
+					S
+				</text>
+				<text
+					x="12"
+					y="94"
+					textAnchor="middle"
+					className="fill-slate-500 text-[10px]"
+				>
+					W
+				</text>
+				<text
+					x="168"
+					y="94"
+					textAnchor="middle"
+					className="fill-slate-500 text-[10px]"
+				>
+					E
+				</text>
+
+				<line
+					x1={cx}
+					y1={cy}
+					x2={courseP.x}
+					y2={courseP.y}
+					stroke="#3b82f6"
+					strokeWidth="2.5"
+				/>
+				<polygon
+					points={arrowHeadPoints({ x: cx, y: cy }, courseP)}
+					fill="#3b82f6"
+				/>
+
+				<line
+					x1={cx}
+					y1={cy}
+					x2={headingP.x}
+					y2={headingP.y}
+					stroke="#16a34a"
+					strokeWidth="2.5"
+				/>
+				<polygon
+					points={arrowHeadPoints({ x: cx, y: cy }, headingP)}
+					fill="#16a34a"
+				/>
+
+				<line
+					x1={cx}
+					y1={cy}
+					x2={windToP.x}
+					y2={windToP.y}
+					stroke="#f97316"
+					strokeWidth="2"
+					strokeDasharray="4 3"
+				/>
+				<polygon
+					points={arrowHeadPoints({ x: cx, y: cy }, windToP, 6.5)}
+					fill="#f97316"
+				/>
+			</svg>
+			<div className="mt-2 space-y-1.5 text-[11px] font-medium text-slate-600">
+				<div className="flex items-center justify-between gap-3">
+					<span className="inline-flex items-center gap-1">
+						<span className="h-2 w-2 rounded-full bg-blue-500" /> Track
+					</span>
+					<span>{format(courseTrue, 0)}°T</span>
+				</div>
+				<div className="flex items-center justify-between gap-3">
+					<span className="inline-flex items-center gap-1">
+						<span className="h-2 w-2 rounded-full bg-green-600" /> Heading
+					</span>
+					<span>{format(headingTrue, 0)}°T</span>
+				</div>
+				<div className="flex items-center justify-between gap-3">
+					<span className="inline-flex items-center gap-1">
+						<span className="h-2 w-2 rounded-full bg-orange-500" /> Wind
+					</span>
+					<span>{format(windFromTrue, 0)}° from</span>
+				</div>
+				<div className="pt-1 text-center text-[11px] font-semibold text-slate-800">
+					WCA {format(Math.abs(wcaDeg), 1)}°
+				</div>
+			</div>
+		</div>
+	);
+}
+
 // Conversion constants (stable across renders).
 const KNOTS_TO_KMH = 1.852;
 const KM_TO_NM = 1 / 1.852;
@@ -463,73 +617,101 @@ export default function WindCorrectionCards({ inputs }) {
 						note={<>Leg: {format(computed.distanceNm, 1)} NM</>}
 					/>
 				</InputSection>
-				<div className="col-span-2 rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-4 shadow-sm ring-1 ring-slate-900/5">
-					<p className="mb-2 text-[12px] font-semibold uppercase tracking-wide text-slate-600">
-						Outputs
-					</p>
+				<div className="col-span-2 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_236px]">
+					<section className="w-full rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-4 shadow-sm ring-1 ring-slate-900/5">
+						<div className="mb-3 flex items-center justify-between">
+							<p className="text-[12px] font-semibold uppercase tracking-wide text-slate-600">
+								Outputs
+							</p>
+						</div>
 
-					{!computed.canCompute ? (
-						<p className="mb-3 rounded-2xl border border-rose-200 bg-rose-50 px-3 py-2 text-[12px] font-medium text-rose-700">
-							Crosswind component is larger than TAS. Holding the track is not
-							possible with the given TAS.
-						</p>
-					) : null}
+						<div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+							<div className="rounded-xl border border-slate-200/80 bg-gradient-to-b from-sky-200 bg-white p-3 shadow-sm">
+								<div className="space-y-1">
+									<div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+										Heading correction (WCA)
+									</div>
+									<div className="text-[16px] font-semibold leading-none text-slate-900">
+										{format(Math.abs(computed.wcaDeg), 1)}° {wcaDirection}
+									</div>
+									<div className="pt-1 text-[12px] font-medium text-slate-600">
+										Heading true: {format(computed.headingTrue, 0)}°
+									</div>
+									<div className="text-[12px] font-medium text-slate-600">
+										Heading mag: {format(computed.headingMag, 0)}°
+									</div>
+								</div>
+							</div>
 
-					<div className="grid grid-cols-2 gap-3">
-						<div className="space-y-1">
-							<div className="text-[12px] font-semibold uppercase tracking-wide text-slate-600">
-								Heading correction (WCA)
+							<div className="rounded-xl border border-slate-200/80 bg-gradient-to-b from-sky-200 bg-white p-3 shadow-sm">
+								<div className="space-y-1">
+									<div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+										Ground speed (GS)
+									</div>
+									<div className="text-[16px] font-semibold leading-none text-slate-900">
+										{format(Math.max(0, computed.groundSpeedKt), 0)} kt
+									</div>
+									<div className="pt-1 text-[12px] font-medium text-slate-600">
+										= {format(Math.max(0, computed.groundSpeedKmh), 0)} km/h
+									</div>
+									<div className="text-[12px] font-medium text-slate-600">
+										Time for leg: {formatTimeHours(computed.timeH)}
+									</div>
+								</div>
 							</div>
-							<div className="text-[13px] font-semibold text-slate-900">
-								{format(Math.abs(computed.wcaDeg), 1)}° {wcaDirection}
+
+							<div className="rounded-xl border border-slate-200/80 bg-gradient-to-b from-sky-200 bg-white p-3 shadow-sm">
+								<div className="space-y-1">
+									<div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+										Headwind / tailwind
+									</div>
+									<div className="text-[16px] font-semibold leading-none text-slate-900">
+										{format(Math.abs(computed.headwindKt), 1)} kt{" "}
+										<span className="text-[12px] font-semibold text-slate-600">
+											({headwindLabel})
+										</span>
+									</div>
+								</div>
 							</div>
-							<div className="text-[12px] font-medium text-slate-600">
-								Heading true: {format(computed.headingTrue, 0)}°
-							</div>
-							<div className="text-[12px] font-medium text-slate-600">
-								Heading mag: {format(computed.headingMag, 0)}°
+
+							<div className="rounded-xl border border-slate-200/80 bg-gradient-to-b from-sky-200 to-white p-3 shadow-sm">
+								<div className="space-y-1">
+									<div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+										Crosswind
+									</div>
+									<div className="text-[16px] font-semibold leading-none text-slate-900">
+										{format(Math.abs(computed.crosswindKt), 1)} kt{" "}
+										<span className="text-[12px] font-semibold text-slate-600">
+											({crosswindSide})
+										</span>
+									</div>
+								</div>
 							</div>
 						</div>
 
-						<div className="space-y-1">
-							<div className="text-[12px] font-semibold uppercase tracking-wide text-slate-600">
-								Ground speed (GS)
+						{!computed.canCompute ? (
+							<div className="mt-3">
+								<p className="rounded-2xl  border border-rose-200 bg-rose-50 px-3 py-2 text-[12px] text-center font-medium text-rose-700">
+									Crosswind component is larger than TAS. Holding the track is
+									not possible with the given TAS.
+								</p>
 							</div>
-							<div className="text-[13px] font-semibold text-slate-900">
-								{format(Math.max(0, computed.groundSpeedKt), 0)} kt
+						) : (
+							<div className="mt-3">
+								<p className="rounded-2xl border border-green-200 bg-green-300/20 px-3 py-2 text-[12px] text-center font-medium text-green-700">
+									Route is possible with current fuel (estimated).
+								</p>
 							</div>
-							<div className="text-[12px] font-medium text-slate-600">
-								= {format(Math.max(0, computed.groundSpeedKmh), 0)} km/h
-							</div>
-							<div className="text-[12px] font-medium text-slate-600">
-								Time for leg: {formatTimeHours(computed.timeH)}
-							</div>
-						</div>
-
-						<div className="space-y-1">
-							<div className="text-[12px] font-semibold uppercase tracking-wide text-slate-600">
-								Headwind / tailwind
-							</div>
-							<div className="text-[13px] font-semibold text-slate-900">
-								{format(Math.abs(computed.headwindKt), 1)} kt{" "}
-								<span className="text-[12px] font-semibold text-slate-600">
-									({headwindLabel})
-								</span>
-							</div>
-						</div>
-
-						<div className="space-y-1">
-							<div className="text-[12px] font-semibold uppercase tracking-wide text-slate-600">
-								Crosswind
-							</div>
-							<div className="text-[13px] font-semibold text-slate-900">
-								{format(Math.abs(computed.crosswindKt), 1)} kt{" "}
-								<span className="text-[12px] font-semibold text-slate-600">
-									({crosswindSide})
-								</span>
-							</div>
-						</div>
-					</div>
+						)}
+					</section>
+					<section className="mx-auto w-full max-w-[236px] self-start lg:mx-0">
+						<CourseCorrectionDiagram
+							courseTrue={computed.courseTrue}
+							headingTrue={computed.headingTrue}
+							windFromTrue={computed.windFromTrue}
+							wcaDeg={computed.wcaDeg}
+						/>
+					</section>
 				</div>
 				{/* Route plan */}
 				<div className="col-span-2 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm ring-1 ring-slate-900/5">
