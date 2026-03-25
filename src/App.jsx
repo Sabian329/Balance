@@ -94,24 +94,27 @@ function App() {
 					</p>
 				</header>
 
-				<div className="flex flex-col gap-5 lg:grid lg:grid-cols-[minmax(0,400px)_1fr] lg:items-start lg:gap-6">
-					<section className="space-y-5 min-h-[1160px] rounded-[20px] bg-white p-4 shadow-card ring-1 ring-slate-900/10 sm:p-5">
-						<InputTable
-							fields={inputFields}
-							inputs={inputs}
-							setInputs={setInputs}
-						/>
-						<CalculationTable rows={rows} totals={totals} />
-						<TotalsCards totals={totals} />
-					</section>
-					<section className=" min-h-[1150px]  flex flex-col justify-between gap-5">
-						<BalanceChart totals={totals} rows={rows} inputs={inputs} />
-						<FlightPerformanceCards totals={totals} inputs={inputs} />
+				<div className="flex flex-col gap-5 lg:gap-6">
+					<div className="flex flex-col gap-5 lg:grid lg:grid-cols-[minmax(0,400px)_1fr] lg:items-stretch lg:gap-6">
+						<section className="h-full space-y-5 rounded-[20px] bg-white p-4 shadow-card ring-1 ring-slate-900/10 sm:p-5">
+							<InputTable
+								fields={inputFields}
+								inputs={inputs}
+								setInputs={setInputs}
+							/>
+							<CalculationTable rows={rows} totals={totals} />
+							<TotalsCards totals={totals} />
+						</section>
+						<section className="h-full flex flex-col gap-5">
+							<BalanceChart totals={totals} rows={rows} inputs={inputs} />
+							<FlightPerformanceCards totals={totals} inputs={inputs} />
+						</section>
+					</div>
+
+					<section>
+						<WindCorrectionCards inputs={inputs} />
 					</section>
 				</div>
-				{/* <section className="">
-					<WindCorrectionCards inputs={inputs} />
-				</section> */}
 			</div>
 		</main>
 	);
