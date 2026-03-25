@@ -32,6 +32,30 @@ body {
     -moz-appearance: none;
   }
 
+  .ios-slider {
+    @apply h-2 cursor-pointer appearance-none rounded-full bg-slate-200;
+  }
+
+  .ios-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 9999px;
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    background: linear-gradient(to bottom, #ffffff, #e2e8f0);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.25);
+  }
+
+  .ios-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 9999px;
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    background: linear-gradient(to bottom, #ffffff, #e2e8f0);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.25);
+  }
+
   .no-number-spin {
     appearance: textfield;
     -moz-appearance: textfield;

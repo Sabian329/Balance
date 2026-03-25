@@ -116,7 +116,7 @@ function CourseCorrectionDiagram({
 	};
 
 	return (
-		<div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-3 shadow-sm ring-1 ring-slate-900/5">
+		<div className="rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-3 shadow-sm ring-1 ring-slate-900/5">
 			<div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-slate-600">
 				Course diagram
 			</div>
@@ -500,7 +500,9 @@ export default function WindCorrectionCards({ inputs }) {
 						step={0.1}
 						min={0}
 						max={30}
+						slider={{ min: 0, max: 30, step: 0.1 }}
 						wrapperClassName="w-full"
+						showSlider
 						note={<>EPWR 6° E</>}
 						select={{
 							value: declinationSide,
@@ -519,6 +521,7 @@ export default function WindCorrectionCards({ inputs }) {
 						step={1}
 						min={0}
 						max={500}
+						slider={{ min: 0, max: 500, step: 1 }}
 						wrapperClassName="w-full"
 						select={{
 							value: speedUnit,
@@ -549,6 +552,7 @@ export default function WindCorrectionCards({ inputs }) {
 						step={1}
 						min={0}
 						max={359}
+						slider={{ min: 0, max: 359, step: 1 }}
 						wrapperClassName="w-full"
 						icon={
 							<DegArrowIcon
@@ -564,6 +568,7 @@ export default function WindCorrectionCards({ inputs }) {
 						step={0.5}
 						min={0}
 						max={200}
+						slider={{ min: 0, max: 200, step: 0.5 }}
 						wrapperClassName="w-full"
 					/>
 				</InputSection>
@@ -580,6 +585,7 @@ export default function WindCorrectionCards({ inputs }) {
 						step={1}
 						min={0}
 						max={359}
+						slider={{ min: 0, max: 359, step: 1 }}
 						wrapperClassName="w-full"
 						icon={
 							<DegArrowIcon
@@ -604,6 +610,7 @@ export default function WindCorrectionCards({ inputs }) {
 						step={1}
 						min={0}
 						max={5000}
+						slider={{ min: 0, max: 5000, step: 1 }}
 						wrapperClassName="w-full"
 						select={{
 							value: distanceUnit,
@@ -626,7 +633,7 @@ export default function WindCorrectionCards({ inputs }) {
 						</div>
 
 						<div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-							<div className="rounded-xl border border-slate-200/80 bg-gradient-to-b from-sky-200 bg-white p-3 shadow-sm">
+							<div className="rounded-xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-3 shadow-sm ring-1 ring-slate-900/5">
 								<div className="space-y-1">
 									<div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
 										Heading correction (WCA)
@@ -643,7 +650,7 @@ export default function WindCorrectionCards({ inputs }) {
 								</div>
 							</div>
 
-							<div className="rounded-xl border border-slate-200/80 bg-gradient-to-b from-sky-200 bg-white p-3 shadow-sm">
+							<div className="rounded-xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-3 shadow-sm ring-1 ring-slate-900/5">
 								<div className="space-y-1">
 									<div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
 										Ground speed (GS)
@@ -660,7 +667,7 @@ export default function WindCorrectionCards({ inputs }) {
 								</div>
 							</div>
 
-							<div className="rounded-xl border border-slate-200/80 bg-gradient-to-b from-sky-200 bg-white p-3 shadow-sm">
+							<div className="rounded-xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-3 shadow-sm ring-1 ring-slate-900/5">
 								<div className="space-y-1">
 									<div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
 										Headwind / tailwind
@@ -674,7 +681,7 @@ export default function WindCorrectionCards({ inputs }) {
 								</div>
 							</div>
 
-							<div className="rounded-xl border border-slate-200/80 bg-gradient-to-b from-sky-200 to-white p-3 shadow-sm">
+							<div className="rounded-xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-3 shadow-sm ring-1 ring-slate-900/5">
 								<div className="space-y-1">
 									<div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
 										Crosswind
@@ -691,15 +698,15 @@ export default function WindCorrectionCards({ inputs }) {
 
 						{!computed.canCompute ? (
 							<div className="mt-3">
-								<p className="rounded-2xl  border border-rose-200 bg-rose-50 px-3 py-2 text-[12px] text-center font-medium text-rose-700">
+								<p className="rounded-2xl border border-rose-200 bg-rose-50 px-3 py-2 text-[12px] text-center font-medium text-rose-700">
 									Crosswind component is larger than TAS. Holding the track is
 									not possible with the given TAS.
 								</p>
 							</div>
 						) : (
 							<div className="mt-3">
-								<p className="rounded-2xl border border-green-200 bg-green-300/20 px-3 py-2 text-[12px] text-center font-medium text-green-700">
-									Route is possible with current fuel (estimated).
+								<p className="rounded-2xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-[12px] text-center font-medium text-emerald-700">
+									Track can be maintained with current TAS and wind.
 								</p>
 							</div>
 						)}
