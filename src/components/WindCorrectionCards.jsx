@@ -200,6 +200,15 @@ function CourseCorrectionDiagram({
 					strokeWidth="2"
 					strokeDasharray="4 3"
 				/>
+				<line
+					x1={cx}
+					y1={cy}
+					x2={2 * cx - windToP.x}
+					y2={2 * cy - windToP.y}
+					stroke="#f97316"
+					strokeWidth="2"
+					strokeDasharray="4 3"
+				/>
 				<polygon
 					points={arrowHeadPoints({ x: cx, y: cy }, windToP, 6.5)}
 					fill="#f97316"
@@ -522,6 +531,7 @@ export default function WindCorrectionCards({ inputs }) {
 						min={0}
 						max={500}
 						slider={{ min: 0, max: 500, step: 1 }}
+						showSlider
 						wrapperClassName="w-full"
 						select={{
 							value: speedUnit,
@@ -553,6 +563,7 @@ export default function WindCorrectionCards({ inputs }) {
 						min={0}
 						max={359}
 						slider={{ min: 0, max: 359, step: 1 }}
+						showSlider
 						wrapperClassName="w-full"
 						icon={
 							<DegArrowIcon
@@ -568,7 +579,8 @@ export default function WindCorrectionCards({ inputs }) {
 						step={0.5}
 						min={0}
 						max={200}
-						slider={{ min: 0, max: 200, step: 0.5 }}
+						slider={{ min: 0, max: 40, step: 0.5 }}
+						showSlider
 						wrapperClassName="w-full"
 					/>
 				</InputSection>
@@ -586,6 +598,7 @@ export default function WindCorrectionCards({ inputs }) {
 						min={0}
 						max={359}
 						slider={{ min: 0, max: 359, step: 1 }}
+						showSlider
 						wrapperClassName="w-full"
 						icon={
 							<DegArrowIcon
@@ -610,7 +623,8 @@ export default function WindCorrectionCards({ inputs }) {
 						step={1}
 						min={0}
 						max={5000}
-						slider={{ min: 0, max: 5000, step: 1 }}
+						showSlider
+						slider={{ min: 0, max: 200, step: 1 }}
 						wrapperClassName="w-full"
 						select={{
 							value: distanceUnit,

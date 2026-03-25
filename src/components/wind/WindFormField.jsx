@@ -35,6 +35,8 @@ export default function WindFormField({
 	inputMode,
 	icon = null,
 	select = null,
+	showSlider = false,
+	slider = null,
 	note = null,
 	wrapperClassName = "",
 }) {
@@ -65,6 +67,27 @@ export default function WindFormField({
 			},
 		});
 	};
+
+	const canShowSlider =
+		showSlider &&
+		type === "number" &&
+		slider &&
+		Number.isFinite(Number(slider.min)) &&
+		Number.isFinite(Number(slider.max));
+	const sliderMin = canShowSlider ? Number(slider.min) : 0;
+	const sliderMax = canShowSlider ? Number(slider.max) : 100;
+	const sliderStep = canShowSlider
+		? Number.isFinite(Number(slider.step))
+			? Number(slider.step)
+			: Number.isFinite(Number(step))
+				? Number(step)
+				: 1
+		: 1;
+	const parsedValue = Number(value);
+	const sliderValue =
+		canShowSlider && Number.isFinite(parsedValue)
+			? Math.min(Math.max(parsedValue, sliderMin), sliderMax)
+			: sliderMin;
 
 	return (
 		<Field className={["space-y-1", wrapperClassName].join(" ").trim()}>
@@ -118,6 +141,18 @@ export default function WindFormField({
 					</div>
 				) : null}
 			</div>
+
+			{canShowSlider ? (
+				<input
+					type="range"
+					value={sliderValue}
+					min={sliderMin}
+					max={sliderMax}
+					step={sliderStep}
+					onChange={handleChange}
+					className="h-2 w-full cursor-pointer appearance-none rounded-full bg-slate-300 accent-ios-blue"
+				/>
+			) : null}
 
 			{note ? (
 				<div className="text-[12px] font-medium text-slate-600">{note}</div>
